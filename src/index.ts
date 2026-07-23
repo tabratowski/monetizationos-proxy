@@ -44,7 +44,11 @@ export default {
         console.log("Request cookies:", request.headers.get("Cookie"));
 
         let response = await fetch(request);
-        response = new Response(response.body, response);
+        response = new Response(response.body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+        });
         console.log("Response cookies:", response.headers.get("Set-Cookie"));
         const cookie = parse(response.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
