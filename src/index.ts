@@ -46,7 +46,9 @@ export default {
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
 
-        return proxy.handle(request)
+        const response = await proxy.handle(request);
+        console.log("Response cookies:", response.headers.get("Set-Cookie"));
+        return response;
     },
 } satisfies ExportedHandler<Env>
 
