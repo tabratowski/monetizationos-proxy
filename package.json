@@ -1,0 +1,61 @@
+{
+    "name": "monetizationos-proxy",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+        "deploy": "wrangler deploy --env ''",
+        "dev": "wrangler dev",
+        "start": "wrangler dev -e local",
+        "test": "vitest",
+        "cf-typegen": "wrangler types --env example --strict-vars false",
+        "lint": "npx biome check --diagnostic-level=error --no-errors-on-unmatched"
+    },
+    "cloudflare": {
+        "bindings": {
+            "MONETIZATION_OS_SECRET_KEY": {
+                "description": "Select your environment's [Secret Key](https://docs.monetizationos.com/docs/guides/environments/managing-environments#api-keys) for connecting to MonetizationOS."
+            },
+            "ORIGIN_URL": {
+                "description": "The origin URL for your website."
+            },
+            "SURFACE_SLUG": {
+                "description": "The slug for the surface you want to target."
+            },
+            "AUTHENTICATED_USER_JWT_COOKIE_NAME": {
+                "description": "The cookie used to identify authenticated user JWT sessions."
+            },
+            "ANONYMOUS_SESSION_COOKIE_NAME": {
+                "description": "The cookie used to identify anonymous sessions."
+            },
+            "INJECT_SCRIPT_URL": {
+                "description": "The URL of the script to inject for web components."
+            },
+            "MONETIZATION_OS_HOST": {
+                "description": "The MonetizationOS API host."
+            },
+            "MONETIZATION_OS_ENDPOINTS_PREFIX": {
+                "description": "The MonetizationOS API endpoints prefix."
+            },
+            "SURFACE_DECISIONS_IGNORE_PATHS": {
+                "description": "Comma-separated regex patterns for paths that should skip surface decisions."
+            },
+            "SURFACE_DECISIONS_COOKIES": {
+                "description": "Comma-separated regex patterns for cookie names forwarded to surface decisions as http.cookies."
+            },
+            "ORIGIN_REQUEST_HEADERS": {
+                "description": "Optional JSON object mapping header names to values added to every origin request (e.g. {\"X-Api-Key\":\"secret\"}). Use {} when unset."
+            }
+        }
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.4.16",
+        "@cloudflare/vitest-pool-workers": "^0.12.21",
+        "@types/node": "^25.9.1",
+        "typescript": "^6.0.3",
+        "vitest": "~3.2.4",
+        "wrangler": "^4.95.0"
+    },
+    "dependencies": {
+        "@monetizationos/proxy": "1.4.3"
+    }
+}
