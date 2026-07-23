@@ -47,6 +47,7 @@ class CloudflareHtmlRewriterSession implements HtmlRewriterSession {
     private readonly rewriter = new HTMLRewriter()
 
     on(selector: string, handlers: ElementHandlers): HtmlRewriterSession {
+        console.log("test")
         this.rewriter.on(selector, handlers as HTMLRewriterElementContentHandlers)
         return this
     }
