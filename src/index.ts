@@ -1,5 +1,6 @@
 import { env } from 'cloudflare:workers'
 import { type ElementHandlers, type HtmlRewriterSession, MOSProxyBuilder } from '@monetizationos/proxy'
+import { parse } from "cookie";
 
 const proxy = new MOSProxyBuilder()
     .withConfig({
@@ -39,6 +40,11 @@ const proxy = new MOSProxyBuilder()
 
 export default {
     async fetch(request): Promise<Response> {
+        const COOKIE_NAME = "wpe_media_paywall";
+        const cookie = parse(request.headers.get("Cookie") || "");
+        const paywallCookie = cookie[COOKIE_NAME];
+        console.log("Paywall cookie:", paywallCookie);
+
         return proxy.handle(request)
     },
 } satisfies ExportedHandler<Env>
