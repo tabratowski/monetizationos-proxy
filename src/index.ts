@@ -43,7 +43,8 @@ export default {
         const COOKIE_NAME = "wpe_media_paywall";
         console.log("Request cookies:", request.headers.get("Cookie"));
 
-        const response = await fetch(request);
+        let response = await fetch(request);
+        response = new Response(response.body, response);
         console.log("Response cookies:", response.headers.get("Set-Cookie"));
         const cookie = parse(response.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
