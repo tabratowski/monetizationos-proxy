@@ -40,6 +40,7 @@ const proxy = new MOSProxyBuilder()
 
 export default {
     async fetch(request): Promise<Response> {
+        console.log("request: ", request.url)
         let response1 = await fetch("https://monetization.wpenginepoweredstaging.com");
         console.log("Response cookies 1:", response1.headers.getSetCookie());
 
