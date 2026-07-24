@@ -43,10 +43,10 @@ export default {
         console.log("request: ", request.url)
         const COOKIE_NAME = "wpe_media_paywall";
         // temporary URL, will be replaced with request
-        const TMP_URL = "https://monetization.wpenginepoweredstaging.com"
-        let response = await fetch(TMP_URL);
+        const tmpURL = "https://monetization.wpenginepoweredstaging.com"
+        let response = await fetch(tmpURL);
         console.log("Response cookies 1:", response.headers.getSetCookie());
-        const cookie = parse(response.headers.getSetCookie() || "");
+        const cookie = parse(response.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
         return await proxy.handle(request);;
