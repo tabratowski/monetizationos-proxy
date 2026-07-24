@@ -40,11 +40,14 @@ const proxy = new MOSProxyBuilder()
 
 export default {
     async fetch(request): Promise<Response> {
-        const COOKIE_NAME = "wpe_media_paywall";
-        console.log("Request cookies:", request.headers.get("Cookie"));
+        fetch(request).then((response) => {
+        console.log("Response cookie 1:", response.headers.getSetCookie());
+        // No header values returned
+        });
 
+        const COOKIE_NAME = "wpe_media_paywall";
         const response = await proxy.handle(request);
-        console.log("Response cookies:", response.headers.get("Set-Cookie"));
+        console.log("Response cookies 2:", response.headers.get("Set-Cookie"));
         const cookie = parse(response.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
