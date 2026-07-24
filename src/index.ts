@@ -42,10 +42,11 @@ export default {
     async fetch(request): Promise<Response> {
         console.log("request: ", request.url)
         const COOKIE_NAME = "wpe_media_paywall";
-        const tmpURL = "https://monetization.wpenginepoweredstaging.com"
-        let response = await fetch("https://monetization.wpenginepoweredstaging.com");
+        // temporary URL, will be replaced with request
+        const TMP_URL = "https://monetization.wpenginepoweredstaging.com"
+        let response = await fetch(TMP_URL);
         console.log("Response cookies 1:", response.headers.getSetCookie());
-        const cookie = parse(response.headers.get("Set-Cookie") || "");
+        const cookie = parse(response.headers.getSetCookie() || "");
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
         return await proxy.handle(request);;
