@@ -40,13 +40,11 @@ const proxy = new MOSProxyBuilder()
 
 export default {
     async fetch(request): Promise<Response> {
-        fetch(request).then((response1) => {
-        console.log("Response cookie 1:", response1.headers.getSetCookie());
-        // No header values returned
-        });
+        let response1 = await fetch("https://monetization.wpenginepoweredstaging.com");
+        console.log("Response cookies 1:", response1.headers.getSetCookie());
 
         const COOKIE_NAME = "wpe_media_paywall";
-        const response2 = await proxy.handle(request);
+        let response2 = await proxy.handle(request);
         console.log("Response cookies 2:", response2.headers.get("Set-Cookie"));
         const cookie = parse(response2.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
