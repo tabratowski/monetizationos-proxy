@@ -45,7 +45,7 @@ export default {
 
         const response = await proxy.handle(request);
         console.log("Response cookies:", response.headers.get("Set-Cookie"));
-        const cookie = parse(request.headers.get("Cookie") || "");
+        const cookie = parse(response.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
         return response;
