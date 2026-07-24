@@ -43,17 +43,12 @@ export default {
         const COOKIE_NAME = "wpe_media_paywall";
         console.log("Request cookies:", request.headers.get("Cookie"));
 
-        let response = await fetch(request);
-        response = new Response(response.body, {
-            status: response.status,
-            statusText: response.statusText,
-            headers: response.headers,
-        });
+        const response = await proxy.handle(request);
         console.log("Response cookies:", response.headers.get("Set-Cookie"));
-        const cookie = parse(response.headers.get("Set-Cookie") || "");
+        const cookie = parse(request.headers.get("Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
         console.log("Paywall cookie:", paywallCookie);
-        return proxy.handle(request);
+        return response;
     },
 } satisfies ExportedHandler<Env>
 
