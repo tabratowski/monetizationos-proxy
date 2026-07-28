@@ -6,10 +6,7 @@ export default {
     async fetch(request): Promise<Response> {
         console.log("request: ", request.url)
         const COOKIE_NAME = "wpe_media_paywall";
-        // temporary URL, will be replaced with request
-        const TMP_URL = "https://monetization.wpenginepoweredstaging.com"
-        let response = await fetch(TMP_URL);
-        const cookie = parse(response.headers.get("Set-Cookie") || "");
+        const cookie = parse(request.headers.get("Cookie") || request.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
         const decodedPaywallCookie = atob(decodeURIComponent(paywallCookie));
         const jsonPaywallCookie = JSON.parse(decodedPaywallCookie);
