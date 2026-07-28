@@ -9,11 +9,15 @@ export default {
         if (!paywallCookie) {
             return new Response("Missing paywall cookie", { status: 400 });
         }
+
         const decodedPaywallCookie = atob(decodeURIComponent(paywallCookie));
         const jsonPaywallCookie = JSON.parse(decodedPaywallCookie);
         console.log("JSON paywall cookie's mosSecretKey:", jsonPaywallCookie.mosSecretKey);
         console.log("JSON paywall cookie's originUrl:", jsonPaywallCookie.originUrl);
         console.log("JSON paywall cookie's surfaceSlug:", jsonPaywallCookie.surfaceSlug);
+
+        // To avoid circular calls
+        request.headers.set('X-Bypass-Snippet', 'true');
 
         const proxy = new MOSProxyBuilder()
             .withConfig({
