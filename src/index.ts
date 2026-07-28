@@ -5,8 +5,7 @@ import { parse } from "cookie";
 export default {
     async fetch(request): Promise<Response> {
         const cookies = parse(request.headers.get("X-Forwarded-Cookies") || "");
-        const COOKIE_NAME = "wpe_media_paywall";
-        const paywallCookie = cookies[COOKIE_NAME];
+        const paywallCookie = cookies["wpe_media_paywall"];
         if (!paywallCookie) {
             return new Response("Missing paywall cookie", { status: 400 });
         }
