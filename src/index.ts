@@ -6,9 +6,11 @@ export default {
     async fetch(request): Promise<Response> {
         console.log("request: ", request.url)
         const COOKIE_NAME = "wpe_media_paywall";
-        const cookie = parse(request.headers.get("Cookie") || request.headers.get("Set-Cookie") || "");
+        const cookie = parse(request.headers.get("X-Forwarded-Cookies") || "");
         const paywallCookie = cookie[COOKIE_NAME];
-        console.log("Paywall cookie value:", paywallCookie);
+        if (!paywallCookie) {
+            return new Response("Missing paywall cookie", { status: 400 });
+        }
         const decodedPaywallCookie = atob(decodeURIComponent(paywallCookie));
         const jsonPaywallCookie = JSON.parse(decodedPaywallCookie);
         console.log("JSON paywall cookie's mosSecretKey:", jsonPaywallCookie.mosSecretKey);
