@@ -8,6 +8,7 @@ export default {
         const COOKIE_NAME = "wpe_media_paywall";
         const cookie = parse(request.headers.get("Cookie") || request.headers.get("Set-Cookie") || "");
         const paywallCookie = cookie[COOKIE_NAME];
+        console.log("Paywall cookie value:", paywallCookie);
         const decodedPaywallCookie = atob(decodeURIComponent(paywallCookie));
         const jsonPaywallCookie = JSON.parse(decodedPaywallCookie);
         console.log("JSON paywall cookie's mosSecretKey:", jsonPaywallCookie.mosSecretKey);
