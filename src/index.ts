@@ -17,17 +17,17 @@ export default {
         console.log("JSON paywall cookie's surfaceSlug:", jsonPaywallCookie.surfaceSlug);
 
         // Set X-Bypass-Snippet to avoid circular calls
-        // request.headers.set('X-Bypass-Snippet', 'true'); // TypeError: Can't modify immutable headers.
+        // request.headers.set('X-Bypass-Snippet', 'true'); -> TypeError: Can't modify immutable headers.
         const newHeaders = new Headers(request.headers);
         newHeaders.set('X-Bypass-Snippet', 'true');
         const newRequest = new Request(request, { headers: newHeaders });
 
         const proxy = new MOSProxyBuilder()
             .withConfig({
-                originUrl: jsonPaywallCookie.originUrl || 'https://example.local',
-                surfaceSlug: jsonPaywallCookie.surfaceSlug ?? '',
+                originUrl: jsonPaywallCookie.originUrl,
+                surfaceSlug: jsonPaywallCookie.surfaceSlug,
                 mosHost: env.MONETIZATION_OS_HOST || 'https://api.monetizationos.com',
-                mosSecretKey: jsonPaywallCookie.mosSecretKey ?? '',
+                mosSecretKey: jsonPaywallCookie.mosSecretKey,
                 mosEndpointsPrefix: env.MONETIZATION_OS_ENDPOINTS_PREFIX || '/mos-endpoints/',
                 anonymousSessionCookieName: env.ANONYMOUS_SESSION_COOKIE_NAME,
                 authenticatedUserJwtCookieName: env.AUTHENTICATED_USER_JWT_COOKIE_NAME,
