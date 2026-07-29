@@ -16,8 +16,11 @@ export default {
         console.log("JSON paywall cookie's originUrl:", jsonPaywallCookie.originUrl);
         console.log("JSON paywall cookie's surfaceSlug:", jsonPaywallCookie.surfaceSlug);
 
-        // To avoid circular calls
-        request.headers.set('X-Bypass-Snippet', 'true');
+        // Set X-Bypass-Snippet to avoid circular calls
+        // request.headers.set('X-Bypass-Snippet', 'true'); // TypeError: Can't modify immutable headers.
+        const newHeaders = new Headers(request.headers);
+        newHeaders.set('X-Bypass-Snippet', 'true');
+        const newRequest = new Request(request, { headers: newHeaders });
 
         const proxy = new MOSProxyBuilder()
             .withConfig({
@@ -55,7 +58,7 @@ export default {
             })
             .build()
 
-        return await proxy.handle(request);
+        return await proxy.handle(newRequest);
     },
 } satisfies ExportedHandler<Env>
 
