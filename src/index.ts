@@ -35,7 +35,6 @@ const proxy = new MOSProxyBuilder()
             }
         },
     })
-    .withClientIP((request) => request.headers.get('CF-Connecting-IP') ?? undefined)
     .build()
 
 export default {
